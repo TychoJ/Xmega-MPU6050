@@ -17,27 +17,54 @@
  *
  *	MIT License
  *
- *	Copyright (c) 2021 TychoJ
- *
- *	Permission is hereby granted, free of charge, to any person obtaining a copy
- *	of this software and associated documentation files (the "Software"), to deal
- *	in the Software without restriction, including without limitation the rights
- *	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *	copies of the Software, and to permit persons to whom the Software is
- *	furnished to do so, subject to the following conditions:
- *
- *	The above copyright notice and this permission notice shall be included in all
- *	copies or substantial portions of the Software.
- *
- *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *	SOFTWARE.
+ *	Copyright (c) 2021 TychoJ <br>
+ *  
+ *	Permission is hereby granted, free of charge, to any person obtaining a copy <br>
+ *	of this software and associated documentation files (the "Software"), to deal <br>
+ *	in the Software without restriction, including without limitation the rights <br>
+ *	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br>
+ *	copies of the Software, and to permit persons to whom the Software is <br>
+ *	furnished to do so, subject to the following conditions: <br>
+ *  
+ *	The above copyright notice and this permission notice shall be included in all <br>
+ *	copies or substantial portions of the Software. <br>
+ *  
+ *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br>
+ *	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br>
+ *	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br>
+ *	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER <br>
+ *	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, <br>
+ *	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE <br>
+ *	SOFTWARE.<br>
  */
 
+/*!
+ *	\mainpage MPU library for Xmega devices
+ *
+ *	\section dependencies
+ *
+ *	<a href="https://github.com/TychoJ/Xmega-TWI">Xmega-TWI library</a><br>
+ *
+ *	\section section_2 how to use the MPU6050 library
+ *	place the c and h files of the dependencies in the same folder as the c and h files of this library.<br>
+ *	To start using this library you need to init a TWI module of the AtXmega device, this can be done with the TWI library.<br>
+ *	After initializing the TWI module you need to enable the MPU6050.
+ *	\subsection code_example example
+ *	\code{.c}
+ 	enable_mpu6050(&TWIx, addr);
+ 	\endcode
+ *	&TWIx = The TWI module address of the TWI module that needs to be used for the communication with the MPU6050.<br>
+ *	addr  = The address of the MPU6050. If AD0 is connected to ground the address is: 0x68 (hexadecimal). 
+ *	If AD0 is connected to VCC then the address of the MPU6050 will be: 0x69 (hexadecimal). 
+ *
+ *	after enabling the MPU6050 you can use the other functions to get acceleration, rotational velocity and temperature data.<br>
+ *	With the MPU6050_ACCEL_SCL_x and the MPU6050_GYRO_SCL_x to select the precision of the measurements. The lower the precision
+ *	the higher the values you can measure.
+ *
+ *	This library has TWI_MODULE standard defined as &TWIE. you can change it if needed. 
+ *	For the HvA-Xmega boards this should not be changed.
+ *	
+ */
 
 #include <avr/io.h>
 #include <float.h>
@@ -48,8 +75,8 @@
 #ifndef MPU6050_H_
 #define MPU6050_H_
 
-/*!
-*	\warning Do not change unless you do not use the HvA-Xmegaboard!!
+/*
+*	warning: Do not change unless you do not use the HvA-Xmegaboard!!
 */
 #define TWI_MODULE &TWIE
 
@@ -57,12 +84,12 @@
 //0x69 (VCC on AD0)
 #define MPU6050_ADDRESS 0x68
 
-/*!
-*	\brief Register definitions
-*/
+/*
+ *	\brief Register definitions
+ */
 
-/*!
- *	\defgroup Self test registers
+/*
+ *	Self test registers
  */
 #define MPU_6050_SELF_TEST_X	0x0D
 #define MPU_6050_SELF_TEST_Y	0x0E
@@ -72,15 +99,15 @@
 
 #define MPU_6050_SMPLRT_DIV		0x19
 
-/*!
- *	\defgroup Sensor configuration registers of the MPU6050
+/*
+ *	Sensor configuration registers of the MPU6050
  */
 #define MPU_6050_CONFIG			0x1A
 #define MPU_6050_GYRO_CONFIG	0x1B
 #define MPU_6050_ACCEL_CONFIG	0x1C
 
-/*!
- *	\defgroup slave settings for slave devices for the MPU6050
+/*
+ *	Slave settings for slave devices for the MPU6050
  */
 #define MPU_6050_I2C_SLV0_ADDR	0x25
 #define MPU_6050_I2C_SLV0_REG	0x26
@@ -109,22 +136,22 @@
 #define MPU_6050_I2C_SLV4_DI	0x53
 
 
-/*!
- *	\defgroup Master I2C registers for the MPU6050
+/*
+ *	Master I2C registers for the MPU6050
  */
 #define MPU_6050_I2C_MST_CTRL	0x24
 #define MPU_6050_I2C_MST_STATUS	0x36
 #define MPU_6050_I2C_MST_DELAY_CTRL	0x67
 
-/*!
- *	\defgroup Interrupt registers
+/*
+ *	Interrupt registers
  */
 #define MPU_6050_INT_PIN_CFG	0x37
 #define MPU_6050_INT_ENABLE		0x38
 #define MPU_6050_INT_STATUS		0x3A
 
-/*!
- *	\defgroup Accelerometer output registers
+/*
+ *	Accelerometer output registers
  */
 #define MPU_6050_ACCEL_XOUT_H	0x3B
 #define MPU_6050_ACCEL_XOUT_L	0x3C
@@ -133,14 +160,14 @@
 #define MPU_6050_ACCEL_ZOUT_H	0x3F
 #define MPU_6050_ACCEL_ZOUT_L	0x40
 
-/*!
- *	\defgroup Temperatures output registers
+/*
+ *	Temperatures output registers
  */
 #define MPU_6050_TEMP_OUT_H		0x41
 #define MPU_6050_TEMP_OUT_L		0x42
 
-/*!
- *	\defgroup Gyroscope output registers
+/*
+ *	Gyroscope output registers
  */
 #define MPU_6050_GYRO_XOUT_H	0x43
 #define MPU_6050_GYRO_XOUT_L	0x44
@@ -149,8 +176,8 @@
 #define MPU_6050_GYRO_ZOUT_H	0x47
 #define MPU_6050_GYRO_ZOUT_L	0x48
 
-/*!
- *	\defgroup external sensor data registers
+/*
+ *	External sensor data registers
  */
 #define MPU_6050_EXT_SENS_DATA_00	0x49
 #define MPU_6050_EXT_SENS_DATA_01	0x4A
@@ -183,14 +210,14 @@
 
 #define MPU_6050_USER_CTRL	0x6A
 
-/*!
- *	\defgroup Power management registers
+/*
+ *	Power management registers
  */
 #define MPU_6050_PWR_MGMT_1	0x6B
 #define MPU_6050_PWR_MGMT_2	0x6C
 
-/*!
- *	\defgroup FIFO registers of the MPU6050
+/*
+ *	FIFO registers of the MPU6050
  */
 #define MPU_6050_FIFO_EN		0x23
 #define MPU_6050_FIFO_COUNTH	0x72
@@ -200,32 +227,26 @@
 
 #define MPU_6050_WHO_AM_I	0x752
 
-/*!
- *	\defgroup Bit locations in register
+/*
+ *	Bit locations in register
  */
 #define DATA_RDY_INT_EN			0
 #define MPU_6050_I2C_MST_INT_EN	3
 #define MPU_6050_FIFO_INT_EN	4
 
-/*!
- *	\defgroup return values for what_happened_MPU6050
+/*
+ *	return values for what_happened_MPU6050
  */
 #define DATA_RDY_INT			3
 #define MPU_6050_I2C_MST_INT	4
 #define MPU_6050_FIFO_INT		5
 
-/*!
- *	\def MPU6050_CLK_8MHZ
+/*
  *	CLK selection value
  */
 #define MPU6050_CLK_8MHZ 0
 
-/*!
- *	\def MPU6050_TWI_ERROR
- *	Status code for TWI
- */
-/*!
- *	\def MPU6050_TWI_OK
+/*
  *	Status code for TWI
  */
 #define MPU6050_TWI_ERROR	1

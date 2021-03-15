@@ -10,7 +10,7 @@
  *
  *	\note For the HvA-Xmegaboard you need to use TWIE!
  *
- *	\note This library <b>does not</b> support slave devices for the mpu6050!!! 
+ *	\note This library <b>does not</b> support slave devices for the mpu6050! 
  */
 
 /*!	\copyright
