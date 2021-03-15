@@ -38,9 +38,7 @@
  *	SOFTWARE.
  */
 
-#include <float.h>
 #include "mpu6050.h"
-#include "../TWI/TWI.h"
 
 
 typedef union {
@@ -88,7 +86,11 @@ typedef union {
 	uint8_t ACCEL_CONFIG;
 } MPU6050_ACCEL_CONFIG_TYPE;
 
+static uint8_t accel_state;
+static uint8_t gyro_state;
 
+static float gyro_degrees_sec_mpu6050(int16_t raw, uint8_t range);
+static float accel_val_to_g_mpu6050(int16_t raw, uint8_t range);
 
 /*! \brief  Checks for errors 
  *
@@ -128,6 +130,9 @@ uint8_t enable_mpu6050(TWI_t *twi, uint8_t addr){
 	old_reg = 0; //!< Makes the Gyroscope and the accelerometer active
 	err = write_8bit_register_TWI(twi, addr, old_reg, MPU_6050_PWR_MGMT_2);
 	if(check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
+	
+	accel_set_scale_mpu6050(twi, addr, MPU6050_ACCEL_SCL_2G);
+	gyro_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
 	
 	return MPU6050_TWI_OK;	
 }
@@ -201,7 +206,7 @@ uint8_t sleep_mpu6050(TWI_t *twi, uint8_t addr){
  *
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
-uint8_t get_accel_x_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
+uint8_t get_accel_x_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	uint8_t err, read;
 	data16_t accel_x;
 	accel_x.DATA = 0;
@@ -214,7 +219,7 @@ uint8_t get_accel_x_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	accel_x.DATAH = read;
 	
-	(*data) = accel_x.DATA;
+	(*data) = accel_val_to_g_mpu6050(accel_x.DATA, accel_state);
 	
 	return 0;
 }
@@ -227,7 +232,7 @@ uint8_t get_accel_x_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
  *
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
-uint8_t get_accel_y_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
+uint8_t get_accel_y_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	uint8_t err, read;
 	data16_t accel_y;
 	
@@ -239,7 +244,7 @@ uint8_t get_accel_y_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	accel_y.DATAH = read;
 	
-	(*data) = accel_y.DATA;
+	(*data) = accel_val_to_g_mpu6050(accel_y.DATA, accel_state);
 	
 	return 0;	
 }
@@ -252,7 +257,7 @@ uint8_t get_accel_y_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
  *
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
-uint8_t get_accel_z_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
+uint8_t get_accel_z_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	uint8_t err, read;
 	data16_t accel_z;
 	
@@ -264,7 +269,7 @@ uint8_t get_accel_z_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	accel_z.DATAH = read;
 	
-	(*data) = accel_z.DATA;
+	(*data) = accel_val_to_g_mpu6050(accel_z.DATA, accel_state);
 	
 	return 0;	
 }
@@ -277,7 +282,7 @@ uint8_t get_accel_z_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
  *
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
-uint8_t get_gyro_x_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
+uint8_t get_gyro_x_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	uint8_t err, read;
 	data16_t gyro_x;
 	
@@ -289,7 +294,7 @@ uint8_t get_gyro_x_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	gyro_x.DATAH = read;
 	
-	(*data) = gyro_x.DATA;
+	(*data) = gyro_degrees_sec_mpu6050(gyro_x.DATA, gyro_state);
 	
 	return 0;	
 }
@@ -302,7 +307,7 @@ uint8_t get_gyro_x_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
  *
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
-uint8_t get_gyro_y_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
+uint8_t get_gyro_y_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	uint8_t err, read;
 	data16_t gyro_y;
 	
@@ -314,7 +319,7 @@ uint8_t get_gyro_y_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	gyro_y.DATAH = read;
 	
-	(*data) = gyro_y.DATA;
+	(*data) = gyro_degrees_sec_mpu6050(gyro_y.DATA, gyro_state);
 	
 	return 0;	
 }
@@ -327,7 +332,7 @@ uint8_t get_gyro_y_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
  *
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
-uint8_t get_gyro_z_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
+uint8_t get_gyro_z_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	uint8_t err, read;
 	data16_t gyro_z;
 	
@@ -339,7 +344,7 @@ uint8_t get_gyro_z_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	gyro_z.DATAH = read;
 	
-	(*data) = gyro_z.DATA;
+	(*data) = gyro_degrees_sec_mpu6050(gyro_z.DATA, gyro_state);
 	
 	return 0;	
 }
@@ -703,6 +708,8 @@ uint8_t accel_set_scale_mpu6050(TWI_t *twi, uint8_t addr, uint8_t scale){
 	err = write_8bit_register_TWI(twi, addr, data, MPU_6050_ACCEL_CONFIG);
 	if(check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	
+	accel_state = scale;
+	
 	return 0;
 }
 
@@ -723,6 +730,7 @@ uint8_t accel_get_scale_mpu6050(TWI_t *twi, uint8_t addr, uint8_t *scale){
 	
 	ACCEL.ACCEL_CONFIG = data;
 	(*scale) = ACCEL.AFS_SEL;
+	accel_state = ACCEL.AFS_SEL;
 	
 	return 0;	
 }
@@ -750,6 +758,8 @@ uint8_t gyro_set_scale_mpu6050(TWI_t *twi, uint8_t addr, uint8_t scale){
 	err = write_8bit_register_TWI(twi, addr, data, MPU_6050_ACCEL_CONFIG);
 	if(check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	
+	gyro_state = scale;
+	
 	return 0;	
 }
 
@@ -770,7 +780,75 @@ uint8_t gyro_get_scale_mpu6050(TWI_t *twi, uint8_t addr, uint8_t *scale){
 	
 	GYRO.GYRO_CONFIG = data;	
 	(*scale) = GYRO.FS_SEL;
+	gyro_state = GYRO.FS_SEL;
 	
 	return 0;	
 }
 
+/*! \brief  Get the gyroscope scale/range
+ *
+ *  \param  raw		value that is used to calculate degrees per second
+ *	\param	range	value to specify in what range the raw value was read
+ *
+ *  \return degrees per second if the input range is invalid the raw value will be returned
+ */
+static float gyro_degrees_sec_mpu6050(int16_t raw, uint8_t range){
+	float ret;
+	switch(range){
+		case 0:	//!< +-250 degrees per second Max measurement
+			ret = ( (float) ( (  raw + 32768) * 500 ) / 65535 ) - 250;
+			break;
+			
+		case 1: //!< +-500 degrees per second Max measurement
+			ret = ( (float) ( ( raw + 32768) * 1000 ) / 65535 ) - 500;
+			break;
+			
+		case 2: //!< +-1000 degrees per second Max measurement
+			ret = ( (float) ( ( raw + 32768) * 2000 )/ 65535 ) - 1000;
+			break;
+			
+		case 3: //!< +-2000 degrees per second Max measurement
+			ret = ( (float) ( ( raw + 32768) * 4000 )/ 65535 ) - 2000;
+			break;
+			
+		default:
+			ret = (float) raw;
+			break;
+	}
+	
+	return ret;
+}
+
+/*! \brief  Get the gyroscope scale/range
+ *
+ *  \param  raw		value that is used to calculate G-force
+ *	\param	range	value to specify in what range the raw value was read
+ *
+ *  \return G-force if the input range is invalid the raw value will be returned
+ */
+static float accel_val_to_g_mpu6050(int16_t raw, uint8_t range){
+	float ret;
+	switch(range){
+		case 0: //!< +-2G Max measurement
+			ret = ( (float) ( ( raw + 32768) * 4 ) /  65535 ) - 2;
+			break;
+			
+		case 1: //!< +-4G Max measurement
+			ret = ( (float) ( ( raw + 32768) * 8 ) /  65535 ) - 4;
+			break;
+			
+		case 2: //!< +-8G Max measurement
+			ret = ( (float) ( ( raw + 32768) * 16 ) / 65535 ) - 8;
+			break;
+			
+		case 3: //!< +-16G Max measurement
+			ret = ( (float) ( ( raw + 32768) * 32 ) / 65535 ) - 16;
+			break;
+			
+		default: 
+			ret = (float) raw;
+			break;
+	}
+	
+	return ret;
+}

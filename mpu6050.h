@@ -42,6 +42,9 @@
 #include <avr/io.h>
 #include <float.h>
 
+
+#include "../TWI/TWI.h"
+
 #ifndef MPU6050_H_
 #define MPU6050_H_
 
@@ -228,15 +231,15 @@
 #define MPU6050_TWI_ERROR	1
 #define MPU6050_TWI_OK		0
 
-#define MPU6050_ACCEL_SCL_2G	0	//!< 2G Max measurement
-#define MPU6050_ACCEL_SCL_4G	1	//!< 4G Max measurement
-#define MPU6050_ACCEL_SCL_8G	2	//!< 8G Max measurement
-#define MPU6050_ACCEL_SCL_16G	3	//!< 16G Max measurement
+#define MPU6050_ACCEL_SCL_2G	0	//!< +-2G Max measurement
+#define MPU6050_ACCEL_SCL_4G	1	//!< +-4G Max measurement
+#define MPU6050_ACCEL_SCL_8G	2	//!< +-8G Max measurement
+#define MPU6050_ACCEL_SCL_16G	3	//!< +-16G Max measurement
 
-#define MPU6050_GYRO_SCL_250	0	//!< 250 degrees per second Max measurement 
-#define MPU6050_GYRO_SCL_500	1	//!< 500 degrees per second Max measurement 
-#define MPU6050_GYRO_SCL_1000	2	//!< 1000 degrees per second Max measurement 
-#define MPU6050_GYRO_SCL_2000	3	//!< 2000 degrees per second Max measurement 
+#define MPU6050_GYRO_SCL_250	0	//!< +-250 degrees per second Max measurement 
+#define MPU6050_GYRO_SCL_500	1	//!< +-500 degrees per second Max measurement 
+#define MPU6050_GYRO_SCL_1000	2	//!< +-1000 degrees per second Max measurement 
+#define MPU6050_GYRO_SCL_2000	3	//!< +-2000 degrees per second Max measurement 
 
 
 /*! \brief  Union to store 16bits sensor values 
@@ -269,13 +272,13 @@ uint8_t disable_mpu6050(TWI_t *twi, uint8_t addr);
 uint8_t wake_up_mpu6050(TWI_t *twi, uint8_t addr);
 uint8_t sleep_mpu6050(TWI_t *twi, uint8_t addr);
 
-uint8_t get_accel_x_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data);
-uint8_t get_accel_y_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data);
-uint8_t get_accel_z_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data);
+uint8_t get_accel_x_mpu6050(TWI_t *twi, uint8_t addr, float *data);
+uint8_t get_accel_y_mpu6050(TWI_t *twi, uint8_t addr, float *data);
+uint8_t get_accel_z_mpu6050(TWI_t *twi, uint8_t addr, float *data);
 
-uint8_t get_gyro_x_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data);
-uint8_t get_gyro_y_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data);
-uint8_t get_gyro_z_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data);
+uint8_t get_gyro_x_mpu6050(TWI_t *twi, uint8_t addr, float *data);
+uint8_t get_gyro_y_mpu6050(TWI_t *twi, uint8_t addr, float *data);
+uint8_t get_gyro_z_mpu6050(TWI_t *twi, uint8_t addr, float *data);
 
 uint8_t get_temp_mpu6050(TWI_t *twi, uint8_t addr, float *data);
 
