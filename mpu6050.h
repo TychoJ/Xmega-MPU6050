@@ -70,7 +70,7 @@
 #include <float.h>
 
 
-#include "../TWI/TWI.h"
+#include "TWI.h"
 
 #ifndef MPU6050_H_
 #define MPU6050_H_
