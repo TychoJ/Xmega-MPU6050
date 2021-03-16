@@ -24,7 +24,7 @@
 */
 var NAVTREE =
 [
-  [ "TWI library Xmega", "index.html", [
+  [ "MPU6050 library Xmega", "index.html", [
     [ "MPU library for Xmega devices", "index.html", [
       [ "dependencies", "index.html#dependencies", null ],
       [ "how to use the MPU6050 library", "index.html#section_2", [
