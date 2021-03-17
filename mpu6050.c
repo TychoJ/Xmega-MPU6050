@@ -1029,7 +1029,7 @@ uint8_t calibrate_gyro_x_mpu6050(TWI_t *twi, uint8_t addr){
 			sum += value;
 		}
 		
-		ACCELX_OFFSET_MPU6050[i] = sum / 700;
+		ACCELX_OFFSET_MPU6050[i] = ( sum / 700 );
 	}
 	
 	err = gyro_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
@@ -1063,7 +1063,7 @@ uint8_t calibrate_gyro_y_mpu6050(TWI_t *twi, uint8_t addr){
 			sum += value;
 		}
 		
-		ACCELX_OFFSET_MPU6050[i] = sum / 700;
+		ACCELX_OFFSET_MPU6050[i] = 0 - ( sum / 700 );
 	}
 	
 	err = gyro_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
@@ -1097,7 +1097,7 @@ uint8_t calibrate_gyro_z_mpu6050(TWI_t *twi, uint8_t addr){
 			sum += value;
 		}
 		
-		ACCELX_OFFSET_MPU6050[i] = sum / 700;
+		ACCELX_OFFSET_MPU6050[i] = 0 - ( sum / 700 );
 	}
 	
 	err = gyro_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
@@ -1131,7 +1131,7 @@ uint8_t calibrate_accel_x_mpu6050(TWI_t *twi, uint8_t addr){
 			sum += value;
 		}
 		
-		ACCELX_OFFSET_MPU6050[i] = sum / 700;
+		ACCELX_OFFSET_MPU6050[i] = 0 - ( sum / 700 );
 	}
 	
 	err = accel_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
@@ -1165,7 +1165,7 @@ uint8_t calibrate_accel_y_mpu6050(TWI_t *twi, uint8_t addr){
 			sum += value;
 		}
 		
-		ACCELX_OFFSET_MPU6050[i] = sum / 700;
+		ACCELX_OFFSET_MPU6050[i] = 0 - ( sum / 700 );
 	}
 	
 	err = accel_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
