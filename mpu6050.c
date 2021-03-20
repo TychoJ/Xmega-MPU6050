@@ -39,7 +39,6 @@
  */
 
 #include "mpu6050.h"
-#include "../serialF0.h"
 
 
 typedef union {
@@ -155,21 +154,12 @@ uint8_t enable_mpu6050(TWI_t *twi, uint8_t addr){
 	if(err != 0) return err;
 	
 	err = calibrate_accel_x_mpu6050(twi, addr);
-	printf("calibration %s", (err) ? "successful\n" : "failed\n");
 	err = calibrate_accel_y_mpu6050(twi, addr);
-	printf("calibration %s", (err) ? "successful\n" : "failed\n");
 	err = calibrate_accel_z_mpu6050(twi, addr);
-	printf("calibration %s", (err) ? "successful\n" : "failed\n");
 	
 	err = calibrate_gyro_x_mpu6050(twi, addr);
-	printf("calibration %s", (err) ? "successful\n" : "failed\n");
 	err = calibrate_gyro_y_mpu6050(twi, addr);
-	printf("calibration %s", (err) ? "successful\n" : "failed\n");
 	err = calibrate_gyro_z_mpu6050(twi, addr);
-	printf("calibration %s", (err) ? "successful\n" : "failed\n");
-	
-	printf("gyro state: %d\n", gyro_state);
-	printf("accel state: %d\n", accel_state);
 	
 	accel_set_scale_mpu6050(twi, addr, MPU6050_ACCEL_SCL_2G);
 	gyro_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
@@ -622,8 +612,7 @@ uint8_t calibrate_gyro_x_mpu6050(TWI_t *twi, uint8_t addr){
 	int16_t value;
 	
 	for(uint8_t i = 0; i < 4; i++){
-		sum = 0;
-		printf("i: %d\n", i);	
+		sum = 0;	
 		err = gyro_set_scale_mpu6050(twi, addr, range[i]); //  Selecting the range
 		//if(check_err_mpu6050(err) != 0) return 1;
 		
