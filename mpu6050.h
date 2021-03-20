@@ -262,6 +262,9 @@
 #define MPU6050_GYRO_SCL_1000	2	//!< +-1000 degrees per second Max measurement 
 #define MPU6050_GYRO_SCL_2000	3	//!< +-2000 degrees per second Max measurement 
 
+#define ON 1
+#define OFF 0 
+
 
 float ACCELX_OFFSET_MPU6050[4];	//!< The sensor offset value for all sensitivities  
 float ACCELY_OFFSET_MPU6050[4];	//!< The sensor offset value for all sensitivities
@@ -270,8 +273,6 @@ float ACCELZ_OFFSET_MPU6050[4];	//!< The sensor offset value for all sensitiviti
 float GYROX_OFFSET_MPU6050[4];	//!< The sensor offset value for all sensitivities
 float GYROY_OFFSET_MPU6050[4];	//!< The sensor offset value for all sensitivities
 float GYROZ_OFFSET_MPU6050[4];	//!< The sensor offset value for all sensitivities
-
-
 
 /*! \brief  Union to store 16bits sensor values 
  *
@@ -303,13 +304,13 @@ uint8_t disable_mpu6050(TWI_t *twi, uint8_t addr);
 uint8_t wake_up_mpu6050(TWI_t *twi, uint8_t addr);
 uint8_t sleep_mpu6050(TWI_t *twi, uint8_t addr);
 
-uint8_t get_accel_x_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data);
-uint8_t get_accel_y_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data);
-uint8_t get_accel_z_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data);
+uint8_t get_accel_x_raw_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data);
+uint8_t get_accel_y_raw_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data);
+uint8_t get_accel_z_raw_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data);
 
-uint8_t get_gyro_x_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data);
-uint8_t get_gyro_y_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data);
-uint8_t get_gyro_z_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data);
+uint8_t get_gyro_x_raw_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data);
+uint8_t get_gyro_y_raw_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data);
+uint8_t get_gyro_z_raw_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data);
 
 uint8_t get_accel_x_mpu6050(TWI_t *twi, uint8_t addr, float *data);
 uint8_t get_accel_y_mpu6050(TWI_t *twi, uint8_t addr, float *data);
@@ -357,5 +358,15 @@ uint8_t calibrate_gyro_z_mpu6050(TWI_t *twi, uint8_t addr);
 uint8_t calibrate_accel_x_mpu6050(TWI_t *twi, uint8_t addr);
 uint8_t calibrate_accel_y_mpu6050(TWI_t *twi, uint8_t addr);
 uint8_t calibrate_accel_z_mpu6050(TWI_t *twi, uint8_t addr);
+
+uint8_t stdby_all_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off); 
+
+uint8_t stdby_accel_x_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off);
+uint8_t stdby_accel_y_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off);
+uint8_t stdby_accel_z_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off);
+
+uint8_t stdby_gyro_x_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off);
+uint8_t stdby_gyro_y_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off);
+uint8_t stdby_gyro_z_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off);
 
 #endif /* MPU6050_H_ */

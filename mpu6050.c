@@ -39,6 +39,7 @@
  */
 
 #include "mpu6050.h"
+#include "../serialF0.h"
 
 
 typedef union {
@@ -63,6 +64,19 @@ typedef union {
 	};
 	uint8_t PWR_MGMT_1;
 } MPU6050_PWR_MGMT_1_TYPE;
+
+typedef union {
+	struct {
+		uint8_t STBY_ZG : 1;
+		uint8_t STBY_YG : 1;
+		uint8_t STBY_XG : 1;
+		uint8_t STBY_ZA : 1;
+		uint8_t STBY_YA : 1;
+		uint8_t STBY_XA : 1;
+		uint8_t LP_WAKE_CTRL : 2;
+	};	
+	uint8_t PWR_MGMT_2;
+} MPU6050_PWR_MGMT_2_TYPE;
 
 typedef union {
 	struct {
@@ -101,9 +115,10 @@ static float accel_val_to_g_mpu6050(int16_t raw, uint8_t range);
  *  \return	0 if no errors occurred if TWI/I2C bus is in use returns 1 otherwise returns 2	
  */
 uint8_t check_err_mpu6050(uint8_t err){
+	if(err == TWI_STATUS_OK) return 0;
 	if(err == BUS_IN_USE) return 1;
-	if(err == NACK) return 2;
-	if(err == DATA_NOT_SEND) return 2;
+	if(err == NACK) return 100;
+	if(err == DATA_NOT_SEND) return 20;
 	if(err == DATA_NOT_RECEIVED) return 2;
 	return 0;
 }
@@ -116,20 +131,45 @@ uint8_t check_err_mpu6050(uint8_t err){
  *  \return	0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2	
  */
 uint8_t enable_mpu6050(TWI_t *twi, uint8_t addr){
-	uint8_t old_reg, err; 
+	uint8_t err; 
+	
+	for(uint8_t i = 0; i < 4; i++){
+		ACCELX_OFFSET_MPU6050[i] = 0;	
+		ACCELY_OFFSET_MPU6050[i] = 0;	
+		ACCELZ_OFFSET_MPU6050[i] = 0;	
+
+		GYROX_OFFSET_MPU6050[i] = 0;	
+		GYROY_OFFSET_MPU6050[i] = 0;	
+		GYROZ_OFFSET_MPU6050[i] = 0;
+	}	
 		
-	err = wake_up_mpu6050(twi, addr);
+	//err = wake_up_mpu6050(twi, addr);
+	err = write_8bit_register_TWI(twi, addr, 0, MPU_6050_PWR_MGMT_1);
+	if(check_err_mpu6050(err) != 0) return err;
+	//if(err != 0) return err;
+	
+	//err = enable_temp_mpu6050(twi, addr);
+	//if(check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
+	
+	err = stdby_all_mpu6050(twi, addr, OFF);
 	if(err != 0) return err;
 	
-	clk_sel_mpu6050(twi, addr, MPU6050_CLK_8MHZ);
-	if(err != 0) return err;
+	err = calibrate_accel_x_mpu6050(twi, addr);
+	printf("calibration %s", (err) ? "successful\n" : "failed\n");
+	err = calibrate_accel_y_mpu6050(twi, addr);
+	printf("calibration %s", (err) ? "successful\n" : "failed\n");
+	err = calibrate_accel_z_mpu6050(twi, addr);
+	printf("calibration %s", (err) ? "successful\n" : "failed\n");
 	
-	err = enable_temp_mpu6050(twi, addr);
-	if(check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
+	err = calibrate_gyro_x_mpu6050(twi, addr);
+	printf("calibration %s", (err) ? "successful\n" : "failed\n");
+	err = calibrate_gyro_y_mpu6050(twi, addr);
+	printf("calibration %s", (err) ? "successful\n" : "failed\n");
+	err = calibrate_gyro_z_mpu6050(twi, addr);
+	printf("calibration %s", (err) ? "successful\n" : "failed\n");
 	
-	old_reg = 0; //!< Makes the Gyroscope and the accelerometer active
-	err = write_8bit_register_TWI(twi, addr, old_reg, MPU_6050_PWR_MGMT_2);
-	if(check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
+	printf("gyro state: %d\n", gyro_state);
+	printf("accel state: %d\n", accel_state);
 	
 	accel_set_scale_mpu6050(twi, addr, MPU6050_ACCEL_SCL_2G);
 	gyro_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
@@ -206,7 +246,7 @@ uint8_t sleep_mpu6050(TWI_t *twi, uint8_t addr){
  *
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
-uint8_t get_accel_x_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
+uint8_t get_accel_x_raw_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
 	uint8_t err, read;
 	data16_t accel_x;
 	accel_x.DATA = 0;
@@ -219,7 +259,7 @@ uint8_t get_accel_x_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	accel_x.DATAH = read;
 	
-	(*data) = accel_val_to_g_mpu6050(accel_x.DATA, accel_state);
+	(*data) = accel_x.DATA;
 	
 	return 0;	
 }
@@ -232,7 +272,7 @@ uint8_t get_accel_x_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
  *
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
-uint8_t get_accel_y_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
+uint8_t get_accel_y_raw_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
 	uint8_t err, read;
 	data16_t accel_y;
 	
@@ -244,7 +284,7 @@ uint8_t get_accel_y_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	accel_y.DATAH = read;
 	
-	(*data) = accel_val_to_g_mpu6050(accel_y.DATA, accel_state);
+	(*data) = accel_y.DATA;
 	
 	return 0;	
 }
@@ -257,7 +297,7 @@ uint8_t get_accel_y_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
  *
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
-uint8_t get_accel_z_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
+uint8_t get_accel_z_raw_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
 	uint8_t err, read;
 	data16_t accel_z;
 	
@@ -269,7 +309,7 @@ uint8_t get_accel_z_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	accel_z.DATAH = read;
 	
-	(*data) = accel_val_to_g_mpu6050(accel_z.DATA, accel_state);
+	(*data) = accel_z.DATA;
 	
 	return 0;	
 }
@@ -282,7 +322,7 @@ uint8_t get_accel_z_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
  *
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
-uint8_t get_gyro_x_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
+uint8_t get_gyro_x_raw_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
 	uint8_t err, read;
 	data16_t gyro_x;
 	
@@ -294,7 +334,7 @@ uint8_t get_gyro_x_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	gyro_x.DATAH = read;
 	
-	(*data) = gyro_degrees_sec_mpu6050(gyro_x.DATA, gyro_state);
+	(*data) = gyro_x.DATA;
 	
 	return 0;	
 }
@@ -307,7 +347,7 @@ uint8_t get_gyro_x_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
  *
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
-uint8_t get_gyro_y_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
+uint8_t get_gyro_y_raw_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
 	uint8_t err, read;
 	data16_t gyro_y;
 	
@@ -319,7 +359,7 @@ uint8_t get_gyro_y_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	gyro_y.DATAH = read;
 	
-	(*data) = gyro_degrees_sec_mpu6050(gyro_y.DATA, gyro_state);
+	(*data) = gyro_y.DATA;
 	
 	return 0;	
 }
@@ -332,7 +372,7 @@ uint8_t get_gyro_y_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
  *
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
-uint8_t get_gyro_z_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
+uint8_t get_gyro_z_raw_mpu6050(TWI_t *twi, uint8_t addr, int16_t *data){
 	uint8_t err, read;
 	data16_t gyro_z;
 	
@@ -344,7 +384,7 @@ uint8_t get_gyro_z_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	gyro_z.DATAH = read;
 	
-	(*data) = gyro_degrees_sec_mpu6050(gyro_z.DATA, gyro_state);
+	(*data) = gyro_z.DATA;
 	
 	return 0;	
 }
@@ -358,19 +398,17 @@ uint8_t get_gyro_z_raw_mpu6050(TWI_t *twi, uint8_t addr, float *data){
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
 uint8_t get_accel_x_mpu6050(TWI_t *twi, uint8_t addr, float *data){
-	uint8_t err, read;
-	data16_t accel_x;
-	accel_x.DATA = 0;
+	uint8_t err;
+	int16_t raw;
 	
-	err = read_8bit_register_TWI(twi, addr, &read, MPU_6050_ACCEL_XOUT_L);
-	if(check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
-	accel_x.DATAL = read;
+	err = get_accel_x_raw_mpu6050(twi, addr, &raw);
+	if(err != 0) return err;
 	
-	err = read_8bit_register_TWI(twi, addr, &read, MPU_6050_ACCEL_XOUT_H);
-	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
-	accel_x.DATAH = read;
+	raw -= ACCELX_OFFSET_MPU6050[accel_state];
+	float ret = accel_val_to_g_mpu6050(raw, accel_state);
 	
-	(*data) = accel_val_to_g_mpu6050(accel_x.DATA, accel_state);
+	
+	(*data) = ret;
 	
 	return 0;
 }
@@ -384,20 +422,19 @@ uint8_t get_accel_x_mpu6050(TWI_t *twi, uint8_t addr, float *data){
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
 uint8_t get_accel_y_mpu6050(TWI_t *twi, uint8_t addr, float *data){
-	uint8_t err, read;
-	data16_t accel_y;
-	
-	err = read_8bit_register_TWI(twi, addr, &read, MPU_6050_ACCEL_YOUT_L);
-	if(check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
-	accel_y.DATAL = read;
-	
-	err = read_8bit_register_TWI(twi, addr, &read, MPU_6050_ACCEL_YOUT_H);
-	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
-	accel_y.DATAH = read;
-	
-	(*data) = accel_val_to_g_mpu6050(accel_y.DATA, accel_state);
-	
-	return 0;	
+		uint8_t err;
+		int16_t raw;
+		
+		err = get_accel_y_raw_mpu6050(twi, addr, &raw);
+		if(err != 0) return err;
+		
+		raw -= ACCELY_OFFSET_MPU6050[accel_state];
+		float ret = accel_val_to_g_mpu6050(raw, accel_state);
+		
+		
+		(*data) = ret;
+		
+		return 0;	
 }
 
 /*! \brief  Get z-axis accelerometer data
@@ -409,18 +446,17 @@ uint8_t get_accel_y_mpu6050(TWI_t *twi, uint8_t addr, float *data){
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
 uint8_t get_accel_z_mpu6050(TWI_t *twi, uint8_t addr, float *data){
-	uint8_t err, read;
-	data16_t accel_z;
+	uint8_t err;
+	int16_t raw;
 	
-	err = read_8bit_register_TWI(twi, addr, &read, MPU_6050_ACCEL_ZOUT_L);
-	if(check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
-	accel_z.DATAL = read;
+	err = get_accel_z_raw_mpu6050(twi, addr, &raw);
+	if(err != 0) return err;
 	
-	err = read_8bit_register_TWI(twi, addr, &read, MPU_6050_ACCEL_ZOUT_H);
-	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
-	accel_z.DATAH = read;
+	raw -= ACCELY_OFFSET_MPU6050[accel_state];
+	float ret = accel_val_to_g_mpu6050(raw, accel_state);
 	
-	(*data) = accel_val_to_g_mpu6050(accel_z.DATA, accel_state);
+	
+	(*data) = ret;
 	
 	return 0;	
 }
@@ -434,20 +470,18 @@ uint8_t get_accel_z_mpu6050(TWI_t *twi, uint8_t addr, float *data){
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
 uint8_t get_gyro_x_mpu6050(TWI_t *twi, uint8_t addr, float *data){
-	uint8_t err, read;
-	data16_t gyro_x;
+	uint8_t err;
+	int16_t raw;
 	
-	err = read_8bit_register_TWI(twi, addr, &read, MPU_6050_GYRO_XOUT_L);
-	if(check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
-	gyro_x.DATAL = read;
+	err = get_gyro_x_raw_mpu6050(twi, addr, &raw);
+	if(err != 0) return err;
 	
-	err = read_8bit_register_TWI(twi, addr, &read, MPU_6050_GYRO_XOUT_H);
-	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
-	gyro_x.DATAH = read;
+	raw -= GYROX_OFFSET_MPU6050[gyro_state];	
+	float ret = gyro_degrees_sec_mpu6050(raw, gyro_state);
 	
-	(*data) = gyro_degrees_sec_mpu6050(gyro_x.DATA, gyro_state);
+	(*data) = ret;
 	
-	return 0;	
+	return 0;
 }
 
 /*! \brief  Get y-axis gyroscope data
@@ -459,18 +493,17 @@ uint8_t get_gyro_x_mpu6050(TWI_t *twi, uint8_t addr, float *data){
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
 uint8_t get_gyro_y_mpu6050(TWI_t *twi, uint8_t addr, float *data){
-	uint8_t err, read;
-	data16_t gyro_y;
+	uint8_t err;
+	int16_t raw;
 	
-	err = read_8bit_register_TWI(twi, addr, &read, MPU_6050_GYRO_YOUT_L);
-	if(check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
-	gyro_y.DATAL = read;
+	err = get_gyro_y_raw_mpu6050(twi, addr, &raw);
+	if(err != 0) return err;
 	
-	err = read_8bit_register_TWI(twi, addr, &read, MPU_6050_GYRO_YOUT_H);
-	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
-	gyro_y.DATAH = read;
+	raw -= GYROY_OFFSET_MPU6050[gyro_state];
+	float ret = gyro_degrees_sec_mpu6050(raw, gyro_state);
 	
-	(*data) = gyro_degrees_sec_mpu6050(gyro_y.DATA, gyro_state);
+	
+	(*data) = ret;
 	
 	return 0;	
 }
@@ -484,18 +517,304 @@ uint8_t get_gyro_y_mpu6050(TWI_t *twi, uint8_t addr, float *data){
  *  \return 0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2
  */
 uint8_t get_gyro_z_mpu6050(TWI_t *twi, uint8_t addr, float *data){
-	uint8_t err, read;
-	data16_t gyro_z;
+	uint8_t err;
+	int16_t raw;
 	
-	err = read_8bit_register_TWI(twi, addr, &read, MPU_6050_GYRO_ZOUT_L);
-	if(check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
-	gyro_z.DATAL = read;
+	err = get_gyro_z_raw_mpu6050(twi, addr, &raw);
+	if(err != 0) return err;
 	
-	err = read_8bit_register_TWI(twi, addr, &read, MPU_6050_GYRO_ZOUT_H);
-	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
-	gyro_z.DATAH = read;
+	raw -= GYROZ_OFFSET_MPU6050[gyro_state];
+	float ret = gyro_degrees_sec_mpu6050(raw, gyro_state);
 	
-	(*data) = gyro_degrees_sec_mpu6050(gyro_z.DATA, gyro_state);
+	
+	(*data) = ret;
+	
+	return 0;
+}
+
+/*! \brief  Get the gyroscope scale/range
+ *
+ *  \param  raw		value that is used to calculate degrees per second
+ *	\param	range	value to specify in what range the raw value was read
+ *
+ *  \return degrees per second if the input range is invalid the raw value will be returned
+ */
+static float gyro_degrees_sec_mpu6050(int16_t raw, uint8_t range){
+	float ret;
+	switch(range){
+		case 0:	//!< +-250 degrees per second Max measurement
+			//ret = ( (float) ( (  raw + 32768) * 500 ) / 65535 ) - 250;
+			ret = (float) raw / 131.072; 
+			break;
+			
+		case 1: //!< +-500 degrees per second Max measurement
+			//ret = ( (float) ( ( raw + 32768) * 1000 ) / 65535 ) - 500;
+			ret = (float) raw / 65.536;
+			break;
+			
+		case 2: //!< +-1000 degrees per second Max measurement
+			//ret = ( (float) ( ( raw + 32768) * 2000 )/ 65535 ) - 1000;
+			ret = (float) raw / 32.768;
+			break;
+			
+		case 3: //!< +-2000 degrees per second Max measurement
+			//ret = ( (float) ( ( raw + 32768) * 4000 )/ 65535 ) - 2000;
+			ret = (float) raw / 16.384;
+			break;
+			
+		default:
+			ret = (float) raw;
+			break;
+	}
+	
+	return ret;
+}
+
+/*! \brief  Get the gyroscope scale/range
+ *
+ *  \param  raw		value that is used to calculate G-force
+ *	\param	range	value to specify in what range the raw value was read
+ *
+ *  \return G-force if the input range is invalid the raw value will be returned
+ */
+static float accel_val_to_g_mpu6050(int16_t raw, uint8_t range){
+	float ret;
+	switch(range){
+		case 0: //!< +-2G Max measurement
+			// ret = ( (float)  ( raw + 32768) * 4 ) /  65535 ) - 2;
+			ret = (float) raw / 16384;
+			break;
+			
+		case 1: //!< +-4G Max measurement
+			//ret = ( (float) ( ( raw + 32768) * 8 ) /  65535 ) - 4;
+			ret = (float) raw / 8192;
+			break;
+			
+		case 2: //!< +-8G Max measurement
+			//ret = ( (float) ( ( raw + 32768) * 16 ) / 65535 ) - 8;
+			ret = (float) raw / 4096;
+			break;
+			
+		case 3: //!< +-16G Max measurement
+			//ret = ( (float) ( ( raw + 32768) * 32 ) / 65535 ) - 16;
+			ret = (float) raw / 2048;
+			break;
+			
+		default: 
+			ret = (float) raw;
+			break;
+	}
+	
+	return ret;
+}
+
+/*! \brief  Get calibration data Gyro x axis
+ *
+ *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
+ *	\param	addr	address of the MPU6050
+ *
+ *  \return 0 if successful 1 if unsuccessful full
+ */
+uint8_t calibrate_gyro_x_mpu6050(TWI_t *twi, uint8_t addr){
+	uint8_t range[] = { MPU6050_GYRO_SCL_250, MPU6050_GYRO_SCL_500, MPU6050_GYRO_SCL_1000, MPU6050_GYRO_SCL_2000};
+	uint8_t err;
+	int32_t sum;
+	int16_t value;
+	
+	for(uint8_t i = 0; i < 4; i++){
+		sum = 0;
+		printf("i: %d\n", i);	
+		err = gyro_set_scale_mpu6050(twi, addr, range[i]); //  Selecting the range
+		//if(check_err_mpu6050(err) != 0) return 1;
+		
+		for(uint16_t j = 0; j < 700; j++){	//  Loop to get average offset
+			
+			err = get_gyro_x_raw_mpu6050(twi, addr, &value);
+			//if(check_err_mpu6050(err) != 0) return 1;
+			
+			sum += value;
+		}
+		
+		ACCELX_OFFSET_MPU6050[i] = (float) sum / 700;
+	}
+	
+	err = gyro_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
+	if(check_err_mpu6050(err) != 0) return 1;
+	
+	return 0;
+}
+
+/*! \brief  Get calibration data Gyro y axis
+ *
+ *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
+ *	\param	addr	address of the MPU6050
+ *
+ *  \return 0 if successful 1 if unsuccessful full
+ */
+uint8_t calibrate_gyro_y_mpu6050(TWI_t *twi, uint8_t addr){
+	uint8_t range[] = { MPU6050_GYRO_SCL_250, MPU6050_GYRO_SCL_500, MPU6050_GYRO_SCL_1000, MPU6050_GYRO_SCL_2000};
+	uint8_t err;
+	int32_t sum;
+	int16_t value;
+	
+	for(uint8_t i = 0; i < 4; i++){
+		sum = 0;
+		err = gyro_set_scale_mpu6050(twi, addr, range[i]); //!<  Selecting the range
+		//if(check_err_mpu6050(err) != 0) return 1;
+		
+		for(uint16_t j = 0; j < 700; j++){	//!<  Loop to get average offset
+			
+			err = get_gyro_y_raw_mpu6050(twi, addr, &value);
+			//if(check_err_mpu6050(err) != 0) return 1;
+			
+			sum += value;
+		}
+		
+		ACCELX_OFFSET_MPU6050[i] = (float) sum / 700;
+	}
+	
+	err = gyro_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
+	if(check_err_mpu6050(err) != 0) return 1;
+	
+	return 0;	
+}
+
+/*! \brief  Get calibration data Gyro z axis
+ *
+ *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
+ *	\param	addr	address of the MPU6050
+ *
+ *  \return 0 if successful 1 if unsuccessful full
+ */
+uint8_t calibrate_gyro_z_mpu6050(TWI_t *twi, uint8_t addr){
+	uint8_t range[] = { MPU6050_GYRO_SCL_250, MPU6050_GYRO_SCL_500, MPU6050_GYRO_SCL_1000, MPU6050_GYRO_SCL_2000};
+	uint8_t err;
+	int32_t sum;
+	int16_t value;
+	
+	for(uint8_t i = 0; i < 4; i++){
+		sum = 0;
+		err = gyro_set_scale_mpu6050(twi, addr, range[i]); //!<  Selecting the range
+		//if(check_err_mpu6050(err) != 0) return 1;
+		
+		for(uint16_t j = 0; j < 700; j++){	//!<  Loop to get average offset
+			
+			err = get_gyro_z_raw_mpu6050(twi, addr, &value);
+			//if(check_err_mpu6050(err) != 0) return 1;
+			
+			sum += value;
+		}
+		
+		ACCELX_OFFSET_MPU6050[i] = (float) sum / 700;
+	}
+	
+	err = gyro_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
+	if(check_err_mpu6050(err) != 0) return 1;
+	
+	return 0;	
+}
+
+/*! \brief  Get calibration data accelerometer x axis
+ *
+ *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
+ *	\param	addr	address of the MPU6050
+ *
+ *  \return 0 if successful 1 if unsuccessful full
+ */
+uint8_t calibrate_accel_x_mpu6050(TWI_t *twi, uint8_t addr){
+	uint8_t range[] = { MPU6050_ACCEL_SCL_2G, MPU6050_ACCEL_SCL_4G, MPU6050_ACCEL_SCL_8G, MPU6050_ACCEL_SCL_16G};
+	uint8_t err;
+	int32_t sum;
+	int16_t value;
+	
+	for(uint8_t i = 0; i < 4; i++){
+		sum = 0;
+		err = accel_set_scale_mpu6050(twi, addr, range[i]); //!<  Selecting the range
+		//if(check_err_mpu6050(err) != 0) return 1;
+		
+		for(uint16_t j = 0; j < 700; j++){	//!<  Loop to get average offset
+			
+			err = get_accel_x_raw_mpu6050(twi, addr, &value);
+			//if(check_err_mpu6050(err) != 0) return 1;
+			
+			sum += value;
+		}
+		
+		ACCELX_OFFSET_MPU6050[i] = (float) sum / 700;
+	}
+	
+	err = accel_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
+	if(check_err_mpu6050(err) != 0) return 1;
+	
+	return 0;	
+}
+
+/*! \brief  Get calibration data accelerometer y axis
+ *
+ *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
+ *	\param	addr	address of the MPU6050
+ *
+ *  \return 0 if successful 1 if unsuccessful full
+ */
+uint8_t calibrate_accel_y_mpu6050(TWI_t *twi, uint8_t addr){
+	uint8_t range[] = { MPU6050_ACCEL_SCL_2G, MPU6050_ACCEL_SCL_4G, MPU6050_ACCEL_SCL_8G, MPU6050_ACCEL_SCL_16G};
+	uint8_t err;
+	int32_t sum;
+	int16_t value;
+	
+	for(uint8_t i = 0; i < 4; i++){
+		sum = 0;
+		err = accel_set_scale_mpu6050(twi, addr, range[i]); //!<  Selecting the range
+		//if(check_err_mpu6050(err) != 0) return 1;
+		
+		for(uint16_t j = 0; j < 700; j++){	//!<  Loop to get average offset
+			
+			err = get_accel_y_raw_mpu6050(twi, addr, &value);
+			//if(check_err_mpu6050(err) != 0) return 1;
+			
+			sum += value;
+		}
+		
+		ACCELX_OFFSET_MPU6050[i] = (float) sum / 700;
+	}
+	
+	err = accel_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
+	if(check_err_mpu6050(err) != 0) return 1;
+	
+	return 0;	
+}
+
+/*! \brief  Get calibration data accelerometer z axis
+ *
+ *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
+ *	\param	addr	address of the MPU6050
+ *
+ *  \return 0 if successful 1 if unsuccessful full
+ */
+uint8_t calibrate_accel_z_mpu6050(TWI_t *twi, uint8_t addr){
+	uint8_t range[] = { MPU6050_ACCEL_SCL_2G, MPU6050_ACCEL_SCL_4G, MPU6050_ACCEL_SCL_8G, MPU6050_ACCEL_SCL_16G};
+	uint8_t err;
+	int32_t sum;
+	int16_t value;
+	
+	for(uint8_t i = 0; i < 4; i++){
+		sum = 0;
+		err = accel_set_scale_mpu6050(twi, addr, range[i]); //!<  Selecting the range
+		//if(check_err_mpu6050(err) != 0) return 1;
+		
+		for(uint16_t j = 0; j < 700; j++){	//!<  Loop to get average offset
+			
+			err = get_accel_z_raw_mpu6050(twi, addr, &value);
+			//if(check_err_mpu6050(err) != 0) return 1;
+			
+			sum += value;
+		}
+		
+		ACCELX_OFFSET_MPU6050[i] = (float) ( sum / 700 ) - 1;
+	}
+	
+	err = accel_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
+	if(check_err_mpu6050(err) != 0) return 1;
 	
 	return 0;	
 }
@@ -510,7 +829,6 @@ uint8_t get_gyro_z_mpu6050(TWI_t *twi, uint8_t addr, float *data){
  */
 uint8_t get_temp_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	uint8_t err, read;
-	//int8_t readh;
 	TEMP16_t temp;
 	float ret;
 	
@@ -522,7 +840,6 @@ uint8_t get_temp_mpu6050(TWI_t *twi, uint8_t addr, float *data){
 	if (check_err_mpu6050(err) != 0) return check_err_mpu6050(err);
 	temp.DATAH = (read << 0);
 	
-	//ret = ( (temp.TEMP / (float)340) + 36.53);
 	ret = temp.TEMP;
 	
 	ret = (ret  / 340) + 36.53;
@@ -936,274 +1253,180 @@ uint8_t gyro_get_scale_mpu6050(TWI_t *twi, uint8_t addr, uint8_t *scale){
 	return 0;	
 }
 
-/*! \brief  Get the gyroscope scale/range
- *
- *  \param  raw		value that is used to calculate degrees per second
- *	\param	range	value to specify in what range the raw value was read
- *
- *  \return degrees per second if the input range is invalid the raw value will be returned
- */
-static float gyro_degrees_sec_mpu6050(int16_t raw, uint8_t range){
-	float ret;
-	switch(range){
-		case 0:	//!< +-250 degrees per second Max measurement
-			ret = ( (float) ( (  raw + 32768) * 500 ) / 65535 ) - 250;
-			break;
-			
-		case 1: //!< +-500 degrees per second Max measurement
-			ret = ( (float) ( ( raw + 32768) * 1000 ) / 65535 ) - 500;
-			break;
-			
-		case 2: //!< +-1000 degrees per second Max measurement
-			ret = ( (float) ( ( raw + 32768) * 2000 )/ 65535 ) - 1000;
-			break;
-			
-		case 3: //!< +-2000 degrees per second Max measurement
-			ret = ( (float) ( ( raw + 32768) * 4000 )/ 65535 ) - 2000;
-			break;
-			
-		default:
-			ret = (float) raw;
-			break;
-	}
-	
-	return ret;
-}
-
-/*! \brief  Get the gyroscope scale/range
- *
- *  \param  raw		value that is used to calculate G-force
- *	\param	range	value to specify in what range the raw value was read
- *
- *  \return G-force if the input range is invalid the raw value will be returned
- */
-static float accel_val_to_g_mpu6050(int16_t raw, uint8_t range){
-	float ret;
-	switch(range){
-		case 0: //!< +-2G Max measurement
-			ret = ( (float) ( ( raw + 32768) * 4 ) /  65535 ) - 2;
-			break;
-			
-		case 1: //!< +-4G Max measurement
-			ret = ( (float) ( ( raw + 32768) * 8 ) /  65535 ) - 4;
-			break;
-			
-		case 2: //!< +-8G Max measurement
-			ret = ( (float) ( ( raw + 32768) * 16 ) / 65535 ) - 8;
-			break;
-			
-		case 3: //!< +-16G Max measurement
-			ret = ( (float) ( ( raw + 32768) * 32 ) / 65535 ) - 16;
-			break;
-			
-		default: 
-			ret = (float) raw;
-			break;
-	}
-	
-	return ret;
-}
-
-/*! \brief  Get calibration data Gyro x axis
+/*! \brief  Turn off or on standby mode accelerometer and gyroscope
  *
  *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
  *	\param	addr	address of the MPU6050
+ *	\param	on_off	1 turn on standby 0 turn off standby
  *
- *  \return 0 if successful 1 if unsuccessful full
+ *  \return 0 if successful error code from TWI if unsuccessful full
  */
-uint8_t calibrate_gyro_x_mpu6050(TWI_t *twi, uint8_t addr){
-	uint8_t range[] = { MPU6050_GYRO_SCL_250, MPU6050_GYRO_SCL_500, MPU6050_GYRO_SCL_1000, MPU6050_GYRO_SCL_2000};
-	uint8_t err;
-	long double sum = 0;
-	float value;
+uint8_t stdby_all_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off){
+	uint8_t err, buff;
+	MPU6050_PWR_MGMT_2_TYPE PWR_MGMT_2;
 	
-	for(uint8_t i = 0; i < 4; i++){	
-		err = gyro_set_scale_mpu6050(twi, addr, range[i]); //!<  Selecting the range
-		if(check_err_mpu6050(err) != 0) return 1;
-		
-		for(uint16_t j = 0; j < 700; j++){	//!<  Loop to get average offset
-			
-			err = get_gyro_x_raw_mpu6050(twi, addr, &value);
-			if(check_err_mpu6050(err) != 0) return 1;
-			
-			sum += value;
-		}
-		
-		ACCELX_OFFSET_MPU6050[i] = ( sum / 700 );
-	}
+	err = read_8bit_register_TWI(twi, addr, &buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
 	
-	err = gyro_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
-	if(check_err_mpu6050(err) != 0) return 1;
+	PWR_MGMT_2.PWR_MGMT_2 = buff;
+	
+	buff = PWR_MGMT_2.LP_WAKE_CTRL;
+	PWR_MGMT_2.PWR_MGMT_2 = 0;
+	PWR_MGMT_2.LP_WAKE_CTRL = buff;
+	buff = PWR_MGMT_2.PWR_MGMT_2;
+	
+	err = write_8bit_register_TWI(twi, addr, buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
 	
 	return 0;
 }
 
-/*! \brief  Get calibration data Gyro y axis
+/*! \brief  Turn off or on standby mode accelerometer x-axis
  *
  *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
  *	\param	addr	address of the MPU6050
+ *	\param	on_off	1 turn on standby 0 turn off standby
  *
- *  \return 0 if successful 1 if unsuccessful full
+ *  \return 0 if successful error code from TWI if unsuccessful full
  */
-uint8_t calibrate_gyro_y_mpu6050(TWI_t *twi, uint8_t addr){
-	uint8_t range[] = { MPU6050_GYRO_SCL_250, MPU6050_GYRO_SCL_500, MPU6050_GYRO_SCL_1000, MPU6050_GYRO_SCL_2000};
-	uint8_t err;
-	long double sum = 0;
-	float value;
+uint8_t stdby_accel_x_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off){
+	uint8_t err, buff;
+	MPU6050_PWR_MGMT_2_TYPE PWR_MGMT_2;
 	
-	for(uint8_t i = 0; i < 4; i++){
-		err = gyro_set_scale_mpu6050(twi, addr, range[i]); //!<  Selecting the range
-		if(check_err_mpu6050(err) != 0) return 1;
-		
-		for(uint16_t j = 0; j < 700; j++){	//!<  Loop to get average offset
-			
-			err = get_gyro_y_raw_mpu6050(twi, addr, &value);
-			if(check_err_mpu6050(err) != 0) return 1;
-			
-			sum += value;
-		}
-		
-		ACCELX_OFFSET_MPU6050[i] = 0 - ( sum / 700 );
-	}
+	err = read_8bit_register_TWI(twi, addr, &buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
 	
-	err = gyro_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
-	if(check_err_mpu6050(err) != 0) return 1;
+	PWR_MGMT_2.PWR_MGMT_2 = buff;
+	PWR_MGMT_2.STBY_XA = on_off;
+	buff = PWR_MGMT_2.PWR_MGMT_2;
+	
+	err = write_8bit_register_TWI(twi, addr, buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
+	
+	return 0;
+}
+
+/*! \brief  Turn off or on standby mode accelerometer y-axis
+ *
+ *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
+ *	\param	addr	address of the MPU6050
+ *	\param	on_off	1 turn on standby 0 turn off standby
+ *
+ *  \return 0 if successful error code from TWI if unsuccessful full
+ */
+uint8_t stdby_accel_y_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off){
+	uint8_t err, buff;
+	MPU6050_PWR_MGMT_2_TYPE PWR_MGMT_2;
+	
+	err = read_8bit_register_TWI(twi, addr, &buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
+	
+	PWR_MGMT_2.PWR_MGMT_2 = buff;
+	PWR_MGMT_2.STBY_YA = on_off;
+	buff = PWR_MGMT_2.PWR_MGMT_2;
+	
+	err = write_8bit_register_TWI(twi, addr, buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
 	
 	return 0;	
 }
 
-/*! \brief  Get calibration data Gyro z axis
+/*! \brief  Turn off or on standby mode accelerometer z-axis
  *
  *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
  *	\param	addr	address of the MPU6050
+ *	\param	on_off	1 turn on standby 0 turn off standby
  *
- *  \return 0 if successful 1 if unsuccessful full
+ *  \return 0 if successful error code from TWI if unsuccessful full
  */
-uint8_t calibrate_gyro_z_mpu6050(TWI_t *twi, uint8_t addr){
-	uint8_t range[] = { MPU6050_GYRO_SCL_250, MPU6050_GYRO_SCL_500, MPU6050_GYRO_SCL_1000, MPU6050_GYRO_SCL_2000};
-	uint8_t err;
-	long double sum = 0;
-	float value;
+uint8_t stdby_accel_z_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off){
+	uint8_t err, buff;
+	MPU6050_PWR_MGMT_2_TYPE PWR_MGMT_2;
 	
-	for(uint8_t i = 0; i < 4; i++){
-		err = gyro_set_scale_mpu6050(twi, addr, range[i]); //!<  Selecting the range
-		if(check_err_mpu6050(err) != 0) return 1;
-		
-		for(uint16_t j = 0; j < 700; j++){	//!<  Loop to get average offset
-			
-			err = get_gyro_z_raw_mpu6050(twi, addr, &value);
-			if(check_err_mpu6050(err) != 0) return 1;
-			
-			sum += value;
-		}
-		
-		ACCELX_OFFSET_MPU6050[i] = 0 - ( sum / 700 );
-	}
+	err = read_8bit_register_TWI(twi, addr, &buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
 	
-	err = gyro_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
-	if(check_err_mpu6050(err) != 0) return 1;
+	PWR_MGMT_2.PWR_MGMT_2 = buff;
+	PWR_MGMT_2.STBY_ZA = on_off;
+	buff = PWR_MGMT_2.PWR_MGMT_2;
+	
+	err = write_8bit_register_TWI(twi, addr, buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
 	
 	return 0;	
 }
 
-/*! \brief  Get calibration data accelerometer x axis
+/*! \brief  Turn off or on standby mode gyroscope x-axis
  *
  *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
  *	\param	addr	address of the MPU6050
+ *	\param	on_off	1 turn on standby 0 turn off standby
  *
- *  \return 0 if successful 1 if unsuccessful full
+ *  \return 0 if successful error code from TWI if unsuccessful full
  */
-uint8_t calibrate_accel_x_mpu6050(TWI_t *twi, uint8_t addr){
-	uint8_t range[] = { MPU6050_ACCEL_SCL_2G, MPU6050_ACCEL_SCL_4G, MPU6050_ACCEL_SCL_8G, MPU6050_ACCEL_SCL_16G};
-	uint8_t err;
-	long double sum = 0;
-	float value;
+uint8_t stdby_gyro_x_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off){
+	uint8_t err, buff;
+	MPU6050_PWR_MGMT_2_TYPE PWR_MGMT_2;
 	
-	for(uint8_t i = 0; i < 4; i++){
-		err = accel_set_scale_mpu6050(twi, addr, range[i]); //!<  Selecting the range
-		if(check_err_mpu6050(err) != 0) return 1;
-		
-		for(uint16_t j = 0; j < 700; j++){	//!<  Loop to get average offset
-			
-			err = get_accel_x_raw_mpu6050(twi, addr, &value);
-			if(check_err_mpu6050(err) != 0) return 1;
-			
-			sum += value;
-		}
-		
-		ACCELX_OFFSET_MPU6050[i] = 0 - ( sum / 700 );
-	}
+	err = read_8bit_register_TWI(twi, addr, &buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
 	
-	err = accel_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
-	if(check_err_mpu6050(err) != 0) return 1;
+	PWR_MGMT_2.PWR_MGMT_2 = buff;
+	PWR_MGMT_2.STBY_XG = on_off;
+	buff = PWR_MGMT_2.PWR_MGMT_2;
+	
+	err = write_8bit_register_TWI(twi, addr, buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
 	
 	return 0;	
 }
 
-/*! \brief  Get calibration data accelerometer y axis
+/*! \brief  Turn off or on standby mode gyroscope y-axis
  *
  *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
  *	\param	addr	address of the MPU6050
+ *	\param	on_off	1 turn on standby 0 turn off standby
  *
- *  \return 0 if successful 1 if unsuccessful full
+ *  \return 0 if successful error code from TWI if unsuccessful full
  */
-uint8_t calibrate_accel_y_mpu6050(TWI_t *twi, uint8_t addr){
-	uint8_t range[] = { MPU6050_ACCEL_SCL_2G, MPU6050_ACCEL_SCL_4G, MPU6050_ACCEL_SCL_8G, MPU6050_ACCEL_SCL_16G};
-	uint8_t err;
-	long double sum = 0;
-	float value;
+uint8_t stdby_gyro_y_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off){
+	uint8_t err, buff;
+	MPU6050_PWR_MGMT_2_TYPE PWR_MGMT_2;
 	
-	for(uint8_t i = 0; i < 4; i++){
-		err = accel_set_scale_mpu6050(twi, addr, range[i]); //!<  Selecting the range
-		if(check_err_mpu6050(err) != 0) return 1;
-		
-		for(uint16_t j = 0; j < 700; j++){	//!<  Loop to get average offset
-			
-			err = get_accel_y_raw_mpu6050(twi, addr, &value);
-			if(check_err_mpu6050(err) != 0) return 1;
-			
-			sum += value;
-		}
-		
-		ACCELX_OFFSET_MPU6050[i] = 0 - ( sum / 700 );
-	}
+	err = read_8bit_register_TWI(twi, addr, &buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
 	
-	err = accel_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
-	if(check_err_mpu6050(err) != 0) return 1;
+	PWR_MGMT_2.PWR_MGMT_2 = buff;
+	PWR_MGMT_2.STBY_YG = on_off;
+	buff = PWR_MGMT_2.PWR_MGMT_2;
+	
+	err = write_8bit_register_TWI(twi, addr, buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
 	
 	return 0;	
 }
 
-/*! \brief  Get calibration data accelerometer z axis
+/*! \brief  Turn off or on standby mode gyroscope z-axis
  *
  *  \param  *twi	pointer to the TWI module that is connected to the MPU6050
  *	\param	addr	address of the MPU6050
+ *	\param	on_off	1 turn on standby 0 turn off standby
  *
- *  \return 0 if successful 1 if unsuccessful full
+ *  \return 0 if successful error code from TWI if unsuccessful full
  */
-uint8_t calibrate_accel_z_mpu6050(TWI_t *twi, uint8_t addr){
-	uint8_t range[] = { MPU6050_ACCEL_SCL_2G, MPU6050_ACCEL_SCL_4G, MPU6050_ACCEL_SCL_8G, MPU6050_ACCEL_SCL_16G};
-	uint8_t err;
-	long double sum = 0;
-	float value;
+uint8_t stdby_gyro_z_mpu6050(TWI_t *twi, uint8_t addr, uint8_t on_off){
+	uint8_t err, buff;
+	MPU6050_PWR_MGMT_2_TYPE PWR_MGMT_2;
 	
-	for(uint8_t i = 0; i < 4; i++){
-		err = accel_set_scale_mpu6050(twi, addr, range[i]); //!<  Selecting the range
-		if(check_err_mpu6050(err) != 0) return 1;
-		
-		for(uint16_t j = 0; j < 700; j++){	//!<  Loop to get average offset
-			
-			err = get_accel_z_raw_mpu6050(twi, addr, &value);
-			if(check_err_mpu6050(err) != 0) return 1;
-			
-			sum += value;
-		}
-		
-		ACCELX_OFFSET_MPU6050[i] = sum / 700;
-	}
+	err = read_8bit_register_TWI(twi, addr, &buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
 	
-	err = accel_set_scale_mpu6050(twi, addr, MPU6050_GYRO_SCL_250);
-	if(check_err_mpu6050(err) != 0) return 1;
+	PWR_MGMT_2.PWR_MGMT_2 = buff;
+	PWR_MGMT_2.STBY_ZG = on_off;
+	buff = PWR_MGMT_2.PWR_MGMT_2;
+	
+	err = write_8bit_register_TWI(twi, addr, buff, MPU_6050_PWR_MGMT_2);
+	if(check_err_mpu6050(err) != 0) return err;
 	
 	return 0;	
 }
