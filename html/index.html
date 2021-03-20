@@ -120,7 +120,7 @@ how to use the MPU6050 library</h1>
 <h2><a class="anchor" id="code_example"></a>
 example</h2>
 <div class="fragment"><div class="line"><a class="code" href="mpu6050_8c.html#ac25b91a367716044a889f1cc0795373f">enable_mpu6050</a>(&amp;TWIx, addr);</div>
-<div class="ttc" id="ampu6050_8c_html_ac25b91a367716044a889f1cc0795373f"><div class="ttname"><a href="mpu6050_8c.html#ac25b91a367716044a889f1cc0795373f">enable_mpu6050</a></div><div class="ttdeci">uint8_t enable_mpu6050(TWI_t *twi, uint8_t addr)</div><div class="ttdoc">Enables the MPU6050.</div><div class="ttdef"><b>Definition:</b> <a href="mpu6050_8c_source.html#l00118">mpu6050.c:118</a></div></div>
+<div class="ttc" id="ampu6050_8c_html_ac25b91a367716044a889f1cc0795373f"><div class="ttname"><a href="mpu6050_8c.html#ac25b91a367716044a889f1cc0795373f">enable_mpu6050</a></div><div class="ttdeci">uint8_t enable_mpu6050(TWI_t *twi, uint8_t addr)</div><div class="ttdoc">Enables the MPU6050.</div><div class="ttdef"><b>Definition:</b> <a href="mpu6050_8c_source.html#l00133">mpu6050.c:133</a></div></div>
 </div><!-- fragment --><p> &amp;TWIx = The TWI module address of the TWI module that needs to be used for the communication with the MPU6050.<br  />
  addr = The address of the MPU6050. If AD0 is connected to ground the address is: 0x68 (hexadecimal). If AD0 is connected to VCC then the address of the MPU6050 will be: 0x69 (hexadecimal).</p>
 <p>after enabling the MPU6050 you can use the other functions to get acceleration, rotational velocity and temperature data.<br  />

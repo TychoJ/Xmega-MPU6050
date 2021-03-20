@@ -320,6 +320,10 @@ Macros</h2></td></tr>
 <tr class="memitem:af5de8139af83766b954541fc642cf5ed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#af5de8139af83766b954541fc642cf5ed">MPU6050_GYRO_SCL_2000</a>&#160;&#160;&#160;3</td></tr>
 <tr class="memdesc:af5de8139af83766b954541fc642cf5ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">+-2000 degrees per second Max measurement  <a href="mpu6050_8h.html#af5de8139af83766b954541fc642cf5ed">More...</a><br /></td></tr>
 <tr class="separator:af5de8139af83766b954541fc642cf5ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad76d1750a6cdeebd506bfcd6752554d2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#ad76d1750a6cdeebd506bfcd6752554d2">ON</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:ad76d1750a6cdeebd506bfcd6752554d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29e413f6725b2ba32d165ffaa35b01e5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a29e413f6725b2ba32d165ffaa35b01e5">OFF</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a29e413f6725b2ba32d165ffaa35b01e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -335,24 +339,24 @@ Functions</h2></td></tr>
 <tr class="memitem:a692b7c769322f7c9fc22a5863da949e6"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a692b7c769322f7c9fc22a5863da949e6">sleep_mpu6050</a> (TWI_t *twi, uint8_t addr)</td></tr>
 <tr class="memdesc:a692b7c769322f7c9fc22a5863da949e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lets the MPU6050 go to sleep.  <a href="mpu6050_8h.html#a692b7c769322f7c9fc22a5863da949e6">More...</a><br /></td></tr>
 <tr class="separator:a692b7c769322f7c9fc22a5863da949e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d3fbed1bfa8efc29290fb8497d78352"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a7d3fbed1bfa8efc29290fb8497d78352">get_accel_x_raw_mpu6050</a> (TWI_t *twi, uint8_t addr, float *data)</td></tr>
-<tr class="memdesc:a7d3fbed1bfa8efc29290fb8497d78352"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get x-axis accelerometer data without calibration.  <a href="mpu6050_8h.html#a7d3fbed1bfa8efc29290fb8497d78352">More...</a><br /></td></tr>
-<tr class="separator:a7d3fbed1bfa8efc29290fb8497d78352"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8613a8ee75750e8f76be42e8fb5b2f0c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a8613a8ee75750e8f76be42e8fb5b2f0c">get_accel_y_raw_mpu6050</a> (TWI_t *twi, uint8_t addr, float *data)</td></tr>
-<tr class="memdesc:a8613a8ee75750e8f76be42e8fb5b2f0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get y-axis accelerometer data without calibration.  <a href="mpu6050_8h.html#a8613a8ee75750e8f76be42e8fb5b2f0c">More...</a><br /></td></tr>
-<tr class="separator:a8613a8ee75750e8f76be42e8fb5b2f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9e565f0cea66c1ba13795af3996afe3"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#ae9e565f0cea66c1ba13795af3996afe3">get_accel_z_raw_mpu6050</a> (TWI_t *twi, uint8_t addr, float *data)</td></tr>
-<tr class="memdesc:ae9e565f0cea66c1ba13795af3996afe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get z-axis accelerometer data.  <a href="mpu6050_8h.html#ae9e565f0cea66c1ba13795af3996afe3">More...</a><br /></td></tr>
-<tr class="separator:ae9e565f0cea66c1ba13795af3996afe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a491b1795c64f0b6c71628a36950322da"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a491b1795c64f0b6c71628a36950322da">get_gyro_x_raw_mpu6050</a> (TWI_t *twi, uint8_t addr, float *data)</td></tr>
-<tr class="memdesc:a491b1795c64f0b6c71628a36950322da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get x-axis gyroscope data.  <a href="mpu6050_8h.html#a491b1795c64f0b6c71628a36950322da">More...</a><br /></td></tr>
-<tr class="separator:a491b1795c64f0b6c71628a36950322da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35ae038997b0623d2ea0716097fb625b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a35ae038997b0623d2ea0716097fb625b">get_gyro_y_raw_mpu6050</a> (TWI_t *twi, uint8_t addr, float *data)</td></tr>
-<tr class="memdesc:a35ae038997b0623d2ea0716097fb625b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get y-axis gyroscope data.  <a href="mpu6050_8h.html#a35ae038997b0623d2ea0716097fb625b">More...</a><br /></td></tr>
-<tr class="separator:a35ae038997b0623d2ea0716097fb625b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5de68a04b6fbf427e7abfffceb61b31f"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a5de68a04b6fbf427e7abfffceb61b31f">get_gyro_z_raw_mpu6050</a> (TWI_t *twi, uint8_t addr, float *data)</td></tr>
-<tr class="memdesc:a5de68a04b6fbf427e7abfffceb61b31f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get z-axis gyroscope data.  <a href="mpu6050_8h.html#a5de68a04b6fbf427e7abfffceb61b31f">More...</a><br /></td></tr>
-<tr class="separator:a5de68a04b6fbf427e7abfffceb61b31f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6c08cb1fcfcbd2cdc5ec3eb1b9e8c03"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#ad6c08cb1fcfcbd2cdc5ec3eb1b9e8c03">get_accel_x_raw_mpu6050</a> (TWI_t *twi, uint8_t addr, int16_t *data)</td></tr>
+<tr class="memdesc:ad6c08cb1fcfcbd2cdc5ec3eb1b9e8c03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get x-axis accelerometer data without calibration.  <a href="mpu6050_8h.html#ad6c08cb1fcfcbd2cdc5ec3eb1b9e8c03">More...</a><br /></td></tr>
+<tr class="separator:ad6c08cb1fcfcbd2cdc5ec3eb1b9e8c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d2eb239ed2ab76b8722f2b95ec119f2"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a3d2eb239ed2ab76b8722f2b95ec119f2">get_accel_y_raw_mpu6050</a> (TWI_t *twi, uint8_t addr, int16_t *data)</td></tr>
+<tr class="memdesc:a3d2eb239ed2ab76b8722f2b95ec119f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get y-axis accelerometer data without calibration.  <a href="mpu6050_8h.html#a3d2eb239ed2ab76b8722f2b95ec119f2">More...</a><br /></td></tr>
+<tr class="separator:a3d2eb239ed2ab76b8722f2b95ec119f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe1406cbf3ed43621d1a5546b82690cd"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#afe1406cbf3ed43621d1a5546b82690cd">get_accel_z_raw_mpu6050</a> (TWI_t *twi, uint8_t addr, int16_t *data)</td></tr>
+<tr class="memdesc:afe1406cbf3ed43621d1a5546b82690cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get z-axis accelerometer data.  <a href="mpu6050_8h.html#afe1406cbf3ed43621d1a5546b82690cd">More...</a><br /></td></tr>
+<tr class="separator:afe1406cbf3ed43621d1a5546b82690cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6228dd0f94c248aedd36e0e93bfc67fa"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a6228dd0f94c248aedd36e0e93bfc67fa">get_gyro_x_raw_mpu6050</a> (TWI_t *twi, uint8_t addr, int16_t *data)</td></tr>
+<tr class="memdesc:a6228dd0f94c248aedd36e0e93bfc67fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get x-axis gyroscope data.  <a href="mpu6050_8h.html#a6228dd0f94c248aedd36e0e93bfc67fa">More...</a><br /></td></tr>
+<tr class="separator:a6228dd0f94c248aedd36e0e93bfc67fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cb761611b7768a45fe4341e74457cf2"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a7cb761611b7768a45fe4341e74457cf2">get_gyro_y_raw_mpu6050</a> (TWI_t *twi, uint8_t addr, int16_t *data)</td></tr>
+<tr class="memdesc:a7cb761611b7768a45fe4341e74457cf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get y-axis gyroscope data.  <a href="mpu6050_8h.html#a7cb761611b7768a45fe4341e74457cf2">More...</a><br /></td></tr>
+<tr class="separator:a7cb761611b7768a45fe4341e74457cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8159f5a641fefb0abc0ec54d67b47659"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a8159f5a641fefb0abc0ec54d67b47659">get_gyro_z_raw_mpu6050</a> (TWI_t *twi, uint8_t addr, int16_t *data)</td></tr>
+<tr class="memdesc:a8159f5a641fefb0abc0ec54d67b47659"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get z-axis gyroscope data.  <a href="mpu6050_8h.html#a8159f5a641fefb0abc0ec54d67b47659">More...</a><br /></td></tr>
+<tr class="separator:a8159f5a641fefb0abc0ec54d67b47659"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7ec8837b667fa985dda7886e46f838f"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#ad7ec8837b667fa985dda7886e46f838f">get_accel_x_mpu6050</a> (TWI_t *twi, uint8_t addr, float *data)</td></tr>
 <tr class="memdesc:ad7ec8837b667fa985dda7886e46f838f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get x-axis accelerometer data.  <a href="mpu6050_8h.html#ad7ec8837b667fa985dda7886e46f838f">More...</a><br /></td></tr>
 <tr class="separator:ad7ec8837b667fa985dda7886e46f838f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -456,6 +460,27 @@ Functions</h2></td></tr>
 <tr class="memitem:afc96d72371f7a33cc0a066009db17f34"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#afc96d72371f7a33cc0a066009db17f34">calibrate_accel_z_mpu6050</a> (TWI_t *twi, uint8_t addr)</td></tr>
 <tr class="memdesc:afc96d72371f7a33cc0a066009db17f34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get calibration data accelerometer z axis.  <a href="mpu6050_8h.html#afc96d72371f7a33cc0a066009db17f34">More...</a><br /></td></tr>
 <tr class="separator:afc96d72371f7a33cc0a066009db17f34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57affed1a653a1d1424be7a70e2dca9b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a57affed1a653a1d1424be7a70e2dca9b">stdby_all_mpu6050</a> (TWI_t *twi, uint8_t addr, uint8_t on_off)</td></tr>
+<tr class="memdesc:a57affed1a653a1d1424be7a70e2dca9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn off or on standby mode accelerometer and gyroscope.  <a href="mpu6050_8h.html#a57affed1a653a1d1424be7a70e2dca9b">More...</a><br /></td></tr>
+<tr class="separator:a57affed1a653a1d1424be7a70e2dca9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82d73f27b489fba3d1e81928b6432fec"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a82d73f27b489fba3d1e81928b6432fec">stdby_accel_x_mpu6050</a> (TWI_t *twi, uint8_t addr, uint8_t on_off)</td></tr>
+<tr class="memdesc:a82d73f27b489fba3d1e81928b6432fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn off or on standby mode accelerometer x-axis.  <a href="mpu6050_8h.html#a82d73f27b489fba3d1e81928b6432fec">More...</a><br /></td></tr>
+<tr class="separator:a82d73f27b489fba3d1e81928b6432fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec533dff784a9b7112541c137baf13a9"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#aec533dff784a9b7112541c137baf13a9">stdby_accel_y_mpu6050</a> (TWI_t *twi, uint8_t addr, uint8_t on_off)</td></tr>
+<tr class="memdesc:aec533dff784a9b7112541c137baf13a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn off or on standby mode accelerometer y-axis.  <a href="mpu6050_8h.html#aec533dff784a9b7112541c137baf13a9">More...</a><br /></td></tr>
+<tr class="separator:aec533dff784a9b7112541c137baf13a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fc5261a9e94252736d8df34b3057eda"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a6fc5261a9e94252736d8df34b3057eda">stdby_accel_z_mpu6050</a> (TWI_t *twi, uint8_t addr, uint8_t on_off)</td></tr>
+<tr class="memdesc:a6fc5261a9e94252736d8df34b3057eda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn off or on standby mode accelerometer z-axis.  <a href="mpu6050_8h.html#a6fc5261a9e94252736d8df34b3057eda">More...</a><br /></td></tr>
+<tr class="separator:a6fc5261a9e94252736d8df34b3057eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae18a735a32864076ce168c7daf4259e0"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#ae18a735a32864076ce168c7daf4259e0">stdby_gyro_x_mpu6050</a> (TWI_t *twi, uint8_t addr, uint8_t on_off)</td></tr>
+<tr class="memdesc:ae18a735a32864076ce168c7daf4259e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn off or on standby mode gyroscope x-axis.  <a href="mpu6050_8h.html#ae18a735a32864076ce168c7daf4259e0">More...</a><br /></td></tr>
+<tr class="separator:ae18a735a32864076ce168c7daf4259e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15da1cfd7307bf597281d225f1488ae0"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a15da1cfd7307bf597281d225f1488ae0">stdby_gyro_y_mpu6050</a> (TWI_t *twi, uint8_t addr, uint8_t on_off)</td></tr>
+<tr class="memdesc:a15da1cfd7307bf597281d225f1488ae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn off or on standby mode gyroscope y-axis.  <a href="mpu6050_8h.html#a15da1cfd7307bf597281d225f1488ae0">More...</a><br /></td></tr>
+<tr class="separator:a15da1cfd7307bf597281d225f1488ae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29356095631e47a7bfb98047677e152b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpu6050_8h.html#a29356095631e47a7bfb98047677e152b">stdby_gyro_z_mpu6050</a> (TWI_t *twi, uint8_t addr, uint8_t on_off)</td></tr>
+<tr class="memdesc:a29356095631e47a7bfb98047677e152b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn off or on standby mode gyroscope z-axis.  <a href="mpu6050_8h.html#a29356095631e47a7bfb98047677e152b">More...</a><br /></td></tr>
+<tr class="separator:a29356095631e47a7bfb98047677e152b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -2107,6 +2132,38 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 
 </div>
 </div>
+<a id="a29e413f6725b2ba32d165ffaa35b01e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29e413f6725b2ba32d165ffaa35b01e5">&#9670;&nbsp;</a></span>OFF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OFF&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00266">266</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
+
+</div>
+</div>
+<a id="ad76d1750a6cdeebd506bfcd6752554d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad76d1750a6cdeebd506bfcd6752554d2">&#9670;&nbsp;</a></span>ON</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ON&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00265">265</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
+
+</div>
+</div>
 <a id="aa559de600ec38fc3236c69ec756cc280"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa559de600ec38fc3236c69ec756cc280">&#9670;&nbsp;</a></span>TWI_MODULE</h2>
 
@@ -2167,7 +2224,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00875">875</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01192">1192</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2214,7 +2271,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00847">847</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01164">1164</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2256,7 +2313,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <p>&lt; Selecting the range</p>
 <p>&lt; Loop to get average offset</p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01116">1116</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00724">724</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2298,7 +2355,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <p>&lt; Selecting the range</p>
 <p>&lt; Loop to get average offset</p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01150">1150</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00759">759</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2340,7 +2397,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <p>&lt; Selecting the range</p>
 <p>&lt; Loop to get average offset</p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01184">1184</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00794">794</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2379,10 +2436,8 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if successful 1 if unsuccessful full </dd></dl>
-<p>&lt; Selecting the range</p>
-<p>&lt; Loop to get average offset</p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01014">1014</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00618">618</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2424,7 +2479,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <p>&lt; Selecting the range</p>
 <p>&lt; Loop to get average offset</p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01048">1048</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00654">654</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2466,7 +2521,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <p>&lt; Selecting the range</p>
 <p>&lt; Loop to get average offset</p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01082">1082</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00689">689</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2497,7 +2552,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if no errors occurred if TWI/I2C bus is in use returns 1 otherwise returns 2 <br  />
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00103">103</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00117">117</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2544,7 +2599,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00770">770</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01087">1087</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2585,7 +2640,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 <p>&lt; Makes the Gyroscope and the accelerometer inactive</p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00147">147</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00187">187</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2626,7 +2681,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 <p>&lt; Disables Temperature measurements</p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00634">634</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00951">951</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2666,9 +2721,8 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 <br  />
  </dd></dl>
-<p>&lt; Makes the Gyroscope and the accelerometer active</p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00118">118</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00133">133</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2709,7 +2763,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 <p>&lt; Enables Temperature measurements</p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00653">653</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00970">970</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2764,7 +2818,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00618">618</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00935">935</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2811,12 +2865,12 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00360">360</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00400">400</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
-<a id="a7d3fbed1bfa8efc29290fb8497d78352"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d3fbed1bfa8efc29290fb8497d78352">&#9670;&nbsp;</a></span>get_accel_x_raw_mpu6050()</h2>
+<a id="ad6c08cb1fcfcbd2cdc5ec3eb1b9e8c03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6c08cb1fcfcbd2cdc5ec3eb1b9e8c03">&#9670;&nbsp;</a></span>get_accel_x_raw_mpu6050()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2836,7 +2890,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float *&#160;</td>
+          <td class="paramtype">int16_t *&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -2858,7 +2912,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00209">209</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00249">249</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2905,12 +2959,12 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00386">386</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00424">424</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
-<a id="a8613a8ee75750e8f76be42e8fb5b2f0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8613a8ee75750e8f76be42e8fb5b2f0c">&#9670;&nbsp;</a></span>get_accel_y_raw_mpu6050()</h2>
+<a id="a3d2eb239ed2ab76b8722f2b95ec119f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d2eb239ed2ab76b8722f2b95ec119f2">&#9670;&nbsp;</a></span>get_accel_y_raw_mpu6050()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2930,7 +2984,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float *&#160;</td>
+          <td class="paramtype">int16_t *&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -2952,7 +3006,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00235">235</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00275">275</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -2999,12 +3053,12 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00411">411</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00448">448</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
-<a id="ae9e565f0cea66c1ba13795af3996afe3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9e565f0cea66c1ba13795af3996afe3">&#9670;&nbsp;</a></span>get_accel_z_raw_mpu6050()</h2>
+<a id="afe1406cbf3ed43621d1a5546b82690cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe1406cbf3ed43621d1a5546b82690cd">&#9670;&nbsp;</a></span>get_accel_z_raw_mpu6050()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3024,7 +3078,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float *&#160;</td>
+          <td class="paramtype">int16_t *&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -3046,7 +3100,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00260">260</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00300">300</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3093,12 +3147,12 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00436">436</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00472">472</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
-<a id="a491b1795c64f0b6c71628a36950322da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a491b1795c64f0b6c71628a36950322da">&#9670;&nbsp;</a></span>get_gyro_x_raw_mpu6050()</h2>
+<a id="a6228dd0f94c248aedd36e0e93bfc67fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6228dd0f94c248aedd36e0e93bfc67fa">&#9670;&nbsp;</a></span>get_gyro_x_raw_mpu6050()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3118,7 +3172,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float *&#160;</td>
+          <td class="paramtype">int16_t *&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -3140,7 +3194,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00285">285</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00325">325</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3187,12 +3241,12 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00461">461</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00495">495</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
-<a id="a35ae038997b0623d2ea0716097fb625b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35ae038997b0623d2ea0716097fb625b">&#9670;&nbsp;</a></span>get_gyro_y_raw_mpu6050()</h2>
+<a id="a7cb761611b7768a45fe4341e74457cf2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cb761611b7768a45fe4341e74457cf2">&#9670;&nbsp;</a></span>get_gyro_y_raw_mpu6050()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3212,7 +3266,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float *&#160;</td>
+          <td class="paramtype">int16_t *&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -3234,7 +3288,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00310">310</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00350">350</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3281,12 +3335,12 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00486">486</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00519">519</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
-<a id="a5de68a04b6fbf427e7abfffceb61b31f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5de68a04b6fbf427e7abfffceb61b31f">&#9670;&nbsp;</a></span>get_gyro_z_raw_mpu6050()</h2>
+<a id="a8159f5a641fefb0abc0ec54d67b47659"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8159f5a641fefb0abc0ec54d67b47659">&#9670;&nbsp;</a></span>get_gyro_z_raw_mpu6050()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3306,7 +3360,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float *&#160;</td>
+          <td class="paramtype">int16_t *&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -3328,7 +3382,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00335">335</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00375">375</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3375,7 +3429,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00511">511</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00830">830</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3422,7 +3476,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00925">925</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01242">1242</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3469,7 +3523,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00897">897</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01214">1214</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3516,7 +3570,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00565">565</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00882">882</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3563,7 +3617,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00543">543</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00860">860</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3605,7 +3659,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <p>This register is used to reset the analog and digital signal paths of the accelerometer. The reset will revert the signal path analog to digital converters and filters to their power up configurations</p>
 <dl class="section note"><dt>Note</dt><dd>This function does not clear the sensor register </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00700">700</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01017">1017</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3647,7 +3701,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <p>This register is used to reset the analog and digital signal paths of the gyroscope. The reset will revert the signal path analog to digital converters and filters to their power up configurations</p>
 <dl class="section note"><dt>Note</dt><dd>This function does not clear the sensor register </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00725">725</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01042">1042</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3688,7 +3742,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2</dd></dl>
 <p>When set to 1, this bit resets all internal registers to their default values. The bit automatically clears to 0 once the reset is done. </p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00675">675</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00992">992</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3730,7 +3784,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <p>This register is used to reset the analog and digital signal paths of the temperature sensors. The reset will revert the signal path analog to digital converters and filters to their power up configurations</p>
 <dl class="section note"><dt>Note</dt><dd>This function does not clear the sensor register </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00750">750</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01067">1067</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3778,7 +3832,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>returns always 0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00835">835</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01152">1152</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3819,7 +3873,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>returns always 0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00795">795</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01112">1112</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3860,7 +3914,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>returns always 0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00808">808</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01125">1125</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3901,7 +3955,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>returns always 0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00821">821</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01138">1138</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -3942,7 +3996,336 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 <p>&lt; Enables sleep</p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00189">189</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00229">229</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+
+</div>
+</div>
+<a id="a82d73f27b489fba3d1e81928b6432fec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82d73f27b489fba3d1e81928b6432fec">&#9670;&nbsp;</a></span>stdby_accel_x_mpu6050()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t stdby_accel_x_mpu6050 </td>
+          <td>(</td>
+          <td class="paramtype">TWI_t *&#160;</td>
+          <td class="paramname"><em>twi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>on_off</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn off or on standby mode accelerometer x-axis. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">*twi</td><td>pointer to the TWI module that is connected to the MPU6050 </td></tr>
+    <tr><td class="paramname">addr</td><td>address of the MPU6050 </td></tr>
+    <tr><td class="paramname">on_off</td><td>1 turn on standby 0 turn off standby</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful error code from TWI if unsuccessful full </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01292">1292</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+
+</div>
+</div>
+<a id="aec533dff784a9b7112541c137baf13a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec533dff784a9b7112541c137baf13a9">&#9670;&nbsp;</a></span>stdby_accel_y_mpu6050()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t stdby_accel_y_mpu6050 </td>
+          <td>(</td>
+          <td class="paramtype">TWI_t *&#160;</td>
+          <td class="paramname"><em>twi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>on_off</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn off or on standby mode accelerometer y-axis. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">*twi</td><td>pointer to the TWI module that is connected to the MPU6050 </td></tr>
+    <tr><td class="paramname">addr</td><td>address of the MPU6050 </td></tr>
+    <tr><td class="paramname">on_off</td><td>1 turn on standby 0 turn off standby</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful error code from TWI if unsuccessful full </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01317">1317</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+
+</div>
+</div>
+<a id="a6fc5261a9e94252736d8df34b3057eda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fc5261a9e94252736d8df34b3057eda">&#9670;&nbsp;</a></span>stdby_accel_z_mpu6050()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t stdby_accel_z_mpu6050 </td>
+          <td>(</td>
+          <td class="paramtype">TWI_t *&#160;</td>
+          <td class="paramname"><em>twi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>on_off</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn off or on standby mode accelerometer z-axis. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">*twi</td><td>pointer to the TWI module that is connected to the MPU6050 </td></tr>
+    <tr><td class="paramname">addr</td><td>address of the MPU6050 </td></tr>
+    <tr><td class="paramname">on_off</td><td>1 turn on standby 0 turn off standby</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful error code from TWI if unsuccessful full </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01342">1342</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+
+</div>
+</div>
+<a id="a57affed1a653a1d1424be7a70e2dca9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57affed1a653a1d1424be7a70e2dca9b">&#9670;&nbsp;</a></span>stdby_all_mpu6050()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t stdby_all_mpu6050 </td>
+          <td>(</td>
+          <td class="paramtype">TWI_t *&#160;</td>
+          <td class="paramname"><em>twi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>on_off</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn off or on standby mode accelerometer and gyroscope. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">*twi</td><td>pointer to the TWI module that is connected to the MPU6050 </td></tr>
+    <tr><td class="paramname">addr</td><td>address of the MPU6050 </td></tr>
+    <tr><td class="paramname">on_off</td><td>1 turn on standby 0 turn off standby</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful error code from TWI if unsuccessful full </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01264">1264</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+
+</div>
+</div>
+<a id="ae18a735a32864076ce168c7daf4259e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae18a735a32864076ce168c7daf4259e0">&#9670;&nbsp;</a></span>stdby_gyro_x_mpu6050()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t stdby_gyro_x_mpu6050 </td>
+          <td>(</td>
+          <td class="paramtype">TWI_t *&#160;</td>
+          <td class="paramname"><em>twi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>on_off</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn off or on standby mode gyroscope x-axis. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">*twi</td><td>pointer to the TWI module that is connected to the MPU6050 </td></tr>
+    <tr><td class="paramname">addr</td><td>address of the MPU6050 </td></tr>
+    <tr><td class="paramname">on_off</td><td>1 turn on standby 0 turn off standby</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful error code from TWI if unsuccessful full </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01367">1367</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+
+</div>
+</div>
+<a id="a15da1cfd7307bf597281d225f1488ae0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15da1cfd7307bf597281d225f1488ae0">&#9670;&nbsp;</a></span>stdby_gyro_y_mpu6050()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t stdby_gyro_y_mpu6050 </td>
+          <td>(</td>
+          <td class="paramtype">TWI_t *&#160;</td>
+          <td class="paramname"><em>twi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>on_off</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn off or on standby mode gyroscope y-axis. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">*twi</td><td>pointer to the TWI module that is connected to the MPU6050 </td></tr>
+    <tr><td class="paramname">addr</td><td>address of the MPU6050 </td></tr>
+    <tr><td class="paramname">on_off</td><td>1 turn on standby 0 turn off standby</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful error code from TWI if unsuccessful full </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01392">1392</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+
+</div>
+</div>
+<a id="a29356095631e47a7bfb98047677e152b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29356095631e47a7bfb98047677e152b">&#9670;&nbsp;</a></span>stdby_gyro_z_mpu6050()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t stdby_gyro_z_mpu6050 </td>
+          <td>(</td>
+          <td class="paramtype">TWI_t *&#160;</td>
+          <td class="paramname"><em>twi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>on_off</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn off or on standby mode gyroscope z-axis. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">*twi</td><td>pointer to the TWI module that is connected to the MPU6050 </td></tr>
+    <tr><td class="paramname">addr</td><td>address of the MPU6050 </td></tr>
+    <tr><td class="paramname">on_off</td><td>1 turn on standby 0 turn off standby</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful error code from TWI if unsuccessful full </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l01417">1417</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -4051,7 +4434,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if succeeded if TWI/I2C bus is in use 1 otherwise returns 2 </dd></dl>
 <p>&lt; Disables sleep</p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00170">170</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00210">210</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -4091,7 +4474,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>returns 1 if TWI/I2C bus is in use returns 2 if something went wrong. returns 3 if FIFO_OVF_INT is 1 returns 4 if I2C_MST_INT is 1 returns 5 if DATA_RDY_INT is 1 returns 7 if FIFO_OVF_INT is 1 and I2C_MST_INT is 1 returns 8 if FIFO_OVF_INT is 1 and DATA_RDY_INT is 1 returns 9 if I2C_MST_INT is 1 and DATA_RDY_INT is 1 returns 12 if FIFO_OVF_INT is 1 and I2C_MST_INT is 1 and DATA_RDY_INT is 1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00593">593</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8c_source.html#l00910">910</a> of file <a class="el" href="mpu6050_8c_source.html">mpu6050.c</a>.</p>
 
 </div>
 </div>
@@ -4111,7 +4494,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 <p>The sensor offset value for all sensitivities <br  />
  </p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00266">266</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00269">269</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
 
 </div>
 </div>
@@ -4129,7 +4512,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 
 <p>The sensor offset value for all sensitivities. </p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00267">267</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00270">270</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
 
 </div>
 </div>
@@ -4147,7 +4530,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 
 <p>The sensor offset value for all sensitivities. </p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00268">268</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00271">271</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
 
 </div>
 </div>
@@ -4165,7 +4548,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 
 <p>The sensor offset value for all sensitivities. </p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00270">270</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00273">273</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
 
 </div>
 </div>
@@ -4183,7 +4566,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 
 <p>The sensor offset value for all sensitivities. </p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00271">271</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00274">274</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
 
 </div>
 </div>
@@ -4201,7 +4584,7 @@ This library <b>does not</b> support slave devices for the mpu6050!!! </dd></dl>
 
 <p>The sensor offset value for all sensitivities. </p>
 
-<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00272">272</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mpu6050_8h_source.html#l00275">275</a> of file <a class="el" href="mpu6050_8h_source.html">mpu6050.h</a>.</p>
 
 </div>
 </div>

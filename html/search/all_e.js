@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['xa_5fst_181',['XA_ST',['../union_m_p_u6050___a_c_c_e_l___c_o_n_f_i_g___t_y_p_e.html#ab5a9474bef0bb7a04fc748b54ec4913d',1,'MPU6050_ACCEL_CONFIG_TYPE']]],
-  ['xg_5fst_182',['XG_ST',['../union_m_p_u6050___g_y_r_o___c_o_n_f_i_g___t_y_p_e.html#a30604cc188ac7c2743966603083cfcdc',1,'MPU6050_GYRO_CONFIG_TYPE']]]
+  ['temp_191',['TEMP',['../union_t_e_m_p16__t.html#a05a098e95276357c19ba2ce71a06cc02',1,'TEMP16_t']]],
+  ['temp16_5ft_192',['TEMP16_t',['../union_t_e_m_p16__t.html',1,'']]],
+  ['temp_5fdis_193',['TEMP_DIS',['../union_m_p_u6050___p_w_r___m_g_m_t__1___t_y_p_e.html#adb9bcae0f9d3a1188980a1382661d37a',1,'MPU6050_PWR_MGMT_1_TYPE']]],
+  ['temp_5fget_5fscale_5fmpu6050_194',['temp_get_scale_mpu6050',['../mpu6050_8h.html#ae0bfe5a0398cf5140bbc7901ad60ffd4',1,'mpu6050.h']]],
+  ['temp_5fset_5fscale_5fmpu6050_195',['temp_set_scale_mpu6050',['../mpu6050_8h.html#a3ef630306f91897313348475062cd533',1,'mpu6050.h']]],
+  ['twi_5fmodule_196',['TWI_MODULE',['../mpu6050_8h.html#aa559de600ec38fc3236c69ec756cc280',1,'mpu6050.h']]]
 ];
