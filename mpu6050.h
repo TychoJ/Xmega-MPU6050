@@ -1,7 +1,7 @@
 /*!
  *  \file    mpu6050.h
  *  \author  Tycho Jobsis
- *  \date    16-04-2018
+ *  \date    04-04-2021
  *  \version 0.1.0
  *
  *  \brief   MPU6050 library for the Xmega with the <a href="https://github.com/TychoJ/Xmega-TWI">Xmega-TWI library</a> 
@@ -70,7 +70,7 @@
 #include <float.h>
 
 
-#include "../TWI/TWI.h"
+#include "TWI.h"
 
 #ifndef MPU6050_H_
 #define MPU6050_H_
